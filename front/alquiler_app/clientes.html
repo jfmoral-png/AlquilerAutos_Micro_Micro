@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clientes | Alquiler de Vehículos</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+    <header class="topbar">
+        <div class="brand">Alquiler de Vehículos <span>Microservicios</span></div>
+        <nav class="nav">
+            <a href="index.html">Inicio</a>
+            <a href="vehiculos.html">Vehículos</a>
+            <a href="clientes.html" class="active">Clientes</a>
+            <a href="reservas.html">Reservas</a>
+            <a href="reportes.html">Reportes</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="page-header">
+            <div>
+                <h1>Clientes</h1>
+                <p class="muted">Registre los datos de contacto y la licencia de cada cliente.</p>
+            </div>
+            <div class="toolbar">
+                <button class="btn btn-secondary" id="recargarBtn">Actualizar</button>
+                <button class="btn btn-primary" id="nuevoBtn">Registrar cliente</button>
+            </div>
+        </div>
+
+        <div id="mensaje" class="mensaje"></div>
+
+        <section class="panel">
+            <div class="tabla-container">
+                <table id="clientesTb">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nombre</th>
+                            <th>Teléfono</th>
+                            <th>Correo</th>
+                            <th>Licencia</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="6" class="vacio">Cargando clientes...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <div id="modal-cliente" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-titulo">Registrar cliente</h3>
+                <button type="button" class="modal-close" data-close="modal-cliente">&times;</button>
+            </div>
+            <form name="clienteForm">
+                <div class="form-grid">
+                    <label class="full">
+                        Nombre completo
+                        <input type="text" name="nombre" required maxlength="150" placeholder="Ana Rodríguez">
+                    </label>
+                    <label>
+                        Teléfono
+                        <input type="text" name="telefono" maxlength="50" placeholder="8888-1111">
+                    </label>
+                    <label>
+                        Número de licencia
+                        <input type="text" name="numero_licencia" maxlength="50" placeholder="LIC-1001">
+                    </label>
+                    <label class="full">
+                        Correo electrónico
+                        <input type="email" name="correo" maxlength="100" placeholder="ana@correo.com">
+                    </label>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" data-close="modal-cliente">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-borrar" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Eliminar cliente</h3>
+                <button type="button" class="modal-close" data-close="modal-borrar">&times;</button>
+            </div>
+            <p class="modal-texto">
+                ¿Desea eliminar al cliente <strong id="borrar-nombre"></strong>?
+                Esta acción no se puede deshacer.
+            </p>
+            <div class="modal-acciones">
+                <button type="button" class="btn btn-secondary" data-close="modal-borrar">Cancelar</button>
+                <button type="button" class="btn btn-danger" id="borrar-confirmar">Eliminar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/clientes.js"></script>
+</body>
+</html>

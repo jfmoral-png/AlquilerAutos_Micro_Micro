@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehículos | Alquiler de Vehículos</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+    <header class="topbar">
+        <div class="brand">Alquiler de Vehículos <span>Microservicios</span></div>
+        <nav class="nav">
+            <a href="index.html">Inicio</a>
+            <a href="vehiculos.html" class="active">Vehículos</a>
+            <a href="clientes.html">Clientes</a>
+            <a href="reservas.html">Reservas</a>
+            <a href="reportes.html">Reportes</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="page-header">
+            <div>
+                <h1>Vehículos</h1>
+                <p class="muted">Registre y administre los vehículos disponibles para alquiler.</p>
+            </div>
+            <div class="toolbar">
+                <button class="btn btn-secondary" id="recargarBtn">Actualizar</button>
+                <button class="btn btn-primary" id="nuevoBtn">Registrar vehículo</button>
+            </div>
+        </div>
+
+        <div id="mensaje" class="mensaje"></div>
+
+        <section class="panel">
+            <div class="tabla-container">
+                <table id="vehiculosTb">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Marca</th>
+                            <th>Modelo</th>
+                            <th>Año</th>
+                            <th>Categoría</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="7" class="vacio">Cargando vehículos...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <div id="modal-vehiculo" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-titulo">Registrar vehículo</h3>
+                <button type="button" class="modal-close" data-close="modal-vehiculo">&times;</button>
+            </div>
+            <form name="vehiculoForm">
+                <div class="form-grid">
+                    <label>
+                        Marca
+                        <input type="text" name="marca" required maxlength="100" placeholder="Toyota">
+                    </label>
+                    <label>
+                        Modelo
+                        <input type="text" name="modelo" required maxlength="100" placeholder="Corolla">
+                    </label>
+                    <label>
+                        Año
+                        <input type="number" name="anio" required min="1900" max="2027" placeholder="2024">
+                    </label>
+                    <label>
+                        Categoría
+                        <input type="text" name="categoria" maxlength="50" placeholder="Sedán">
+                    </label>
+                    <label class="full">
+                        Estado
+                        <select name="estado">
+                            <option value="disponible">Disponible</option>
+                            <option value="alquilado">Alquilado</option>
+                            <option value="mantenimiento">En mantenimiento</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" data-close="modal-vehiculo">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-borrar" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Eliminar vehículo</h3>
+                <button type="button" class="modal-close" data-close="modal-borrar">&times;</button>
+            </div>
+            <p class="modal-texto">
+                ¿Desea eliminar el vehículo <strong id="borrar-nombre"></strong>?
+                Esta acción no se puede deshacer.
+            </p>
+            <div class="modal-acciones">
+                <button type="button" class="btn btn-secondary" data-close="modal-borrar">Cancelar</button>
+                <button type="button" class="btn btn-danger" id="borrar-confirmar">Eliminar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/vehiculos.js"></script>
+</body>
+</html>
