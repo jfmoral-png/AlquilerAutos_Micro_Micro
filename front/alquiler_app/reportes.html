@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportes | Alquiler de Vehículos</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+    <header class="topbar">
+        <div class="brand">Alquiler de Vehículos <span>Microservicios</span></div>
+        <nav class="nav">
+            <a href="index.html">Inicio</a>
+            <a href="vehiculos.html">Vehículos</a>
+            <a href="clientes.html">Clientes</a>
+            <a href="reservas.html">Reservas</a>
+            <a href="reportes.html" class="active">Reportes</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="page-header">
+            <div>
+                <h1>Reportes</h1>
+                <p class="muted">Consulte la disponibilidad actual y el historial de alquileres.</p>
+            </div>
+            <button class="btn btn-secondary" id="recargarBtn">Actualizar</button>
+        </div>
+
+        <div id="mensaje" class="mensaje"></div>
+
+        <section class="panel">
+            <div class="panel-header">
+                <h2>Vehículos disponibles ahora</h2>
+                <span class="hint">Sin reservas activas que cubran la fecha de hoy.</span>
+            </div>
+            <div class="tabla-container">
+                <table id="disponiblesTb">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Vehículo</th>
+                            <th>Año</th>
+                            <th>Categoría</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="5" class="vacio">Cargando disponibilidad...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <div class="grid-dos">
+            <section class="panel">
+                <div class="panel-header">
+                    <h2>Historial por vehículo</h2>
+                </div>
+                <label class="full">
+                    Vehículo
+                    <select id="vehiculoSelect">
+                        <option value="">Seleccione un vehículo</option>
+                    </select>
+                </label>
+                <div class="tabla-container" style="margin-top: 16px;">
+                    <table id="historialVehiculoTb">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Cliente</th>
+                                <th>Inicio</th>
+                                <th>Fin</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="5" class="vacio">Seleccione un vehículo.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="panel">
+                <div class="panel-header">
+                    <h2>Historial por cliente</h2>
+                </div>
+                <label class="full">
+                    Cliente
+                    <select id="clienteSelect">
+                        <option value="">Seleccione un cliente</option>
+                    </select>
+                </label>
+                <div class="tabla-container" style="margin-top: 16px;">
+                    <table id="historialClienteTb">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Vehículo</th>
+                                <th>Inicio</th>
+                                <th>Fin</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="5" class="vacio">Seleccione un cliente.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/reportes.js"></script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservas | Alquiler de Vehículos</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+    <header class="topbar">
+        <div class="brand">Alquiler de Vehículos <span>Microservicios</span></div>
+        <nav class="nav">
+            <a href="index.html">Inicio</a>
+            <a href="vehiculos.html">Vehículos</a>
+            <a href="clientes.html">Clientes</a>
+            <a href="reservas.html" class="active">Reservas</a>
+            <a href="reportes.html">Reportes</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="page-header">
+            <div>
+                <h1>Reservas</h1>
+                <p class="muted">Cree reservas por periodo, registre devoluciones y cancele reservas.</p>
+            </div>
+            <div class="toolbar">
+                <button class="btn btn-secondary" id="recargarBtn">Actualizar</button>
+                <button class="btn btn-primary" id="nuevoBtn">Nueva reserva</button>
+            </div>
+        </div>
+
+        <div id="mensaje" class="mensaje"></div>
+
+        <section class="panel">
+            <div class="tabla-container">
+                <table id="reservasTb">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Cliente</th>
+                            <th>Vehículo</th>
+                            <th>Inicio</th>
+                            <th>Fin</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="7" class="vacio">Cargando reservas...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <div id="modal-reserva" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-titulo">Nueva reserva</h3>
+                <button type="button" class="modal-close" data-close="modal-reserva">&times;</button>
+            </div>
+            <form name="reservaForm">
+                <div class="form-grid">
+                    <label class="full">
+                        Cliente
+                        <select name="cliente_id" required>
+                            <option value="">Seleccione un cliente</option>
+                        </select>
+                    </label>
+                    <label class="full">
+                        Vehículo
+                        <select name="vehiculo_id" required>
+                            <option value="">Seleccione un vehículo</option>
+                        </select>
+                    </label>
+                    <label>
+                        Fecha de inicio
+                        <input type="date" name="fecha_inicio" required>
+                    </label>
+                    <label>
+                        Fecha de fin
+                        <input type="date" name="fecha_fin" required>
+                    </label>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" data-close="modal-reserva">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-confirmar" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="confirmar-titulo">Confirmar acción</h3>
+                <button type="button" class="modal-close" data-close="modal-confirmar">&times;</button>
+            </div>
+            <p class="modal-texto" id="confirmar-texto"></p>
+            <div class="modal-acciones">
+                <button type="button" class="btn btn-secondary" data-close="modal-confirmar">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="confirmar-btn">Aceptar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/reservas.js"></script>
+</body>
+</html>
