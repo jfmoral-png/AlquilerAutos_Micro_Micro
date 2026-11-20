@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel | Alquiler de Vehículos</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+    <header class="topbar">
+        <div class="brand">Alquiler de Vehículos <span>Microservicios</span></div>
+        <nav class="nav">
+            <a href="index.html" class="active">Inicio</a>
+            <a href="vehiculos.html">Vehículos</a>
+            <a href="clientes.html">Clientes</a>
+            <a href="reservas.html">Reservas</a>
+            <a href="reportes.html">Reportes</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="page-header">
+            <div>
+                <h1>Panel de control</h1>
+                <p class="muted">Resumen general del sistema de alquiler de vehículos.</p>
+            </div>
+            <button class="btn btn-secondary" id="recargarBtn">Actualizar</button>
+        </div>
+
+        <div id="mensaje" class="mensaje"></div>
+
+        <section class="cards">
+            <article class="card azul">
+                <div class="label">Vehículos</div>
+                <div class="value" id="stat-vehiculos">—</div>
+                <div class="extra">registrados en la flota</div>
+            </article>
+            <article class="card azul">
+                <div class="label">Clientes</div>
+                <div class="value" id="stat-clientes">—</div>
+                <div class="extra">registrados</div>
+            </article>
+            <article class="card">
+                <div class="label">Reservas</div>
+                <div class="value" id="stat-reservas">—</div>
+                <div class="extra">en total</div>
+            </article>
+            <article class="card azul">
+                <div class="label">Activas</div>
+                <div class="value" id="stat-activas">—</div>
+                <div class="extra">reservas vigentes</div>
+            </article>
+            <article class="card verde">
+                <div class="label">Disponibles</div>
+                <div class="value" id="stat-disponibles">—</div>
+                <div class="extra">listos para alquilar hoy</div>
+            </article>
+            <article class="card rojo">
+                <div class="label">Mantenimiento</div>
+                <div class="value" id="stat-mantenimiento">—</div>
+                <div class="extra">fuera de servicio</div>
+            </article>
+        </section>
+
+        <section class="panel">
+            <div class="panel-header">
+                <h2>Últimas reservas</h2>
+                <a class="btn btn-secondary btn-small" href="reservas.html">Ver todas</a>
+            </div>
+            <div class="tabla-container">
+                <table id="ultimasTb">
+                    <thead>
+                        <tr>
+                            <th>Cliente</th>
+                            <th>Vehículo</th>
+                            <th>Inicio</th>
+                            <th>Fin</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="5" class="vacio">Cargando reservas...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="panel">
+            <div class="panel-header">
+                <h2>Servicios</h2>
+                <span class="hint">Cada microservicio tiene su propia base de datos.</span>
+            </div>
+            <div class="servicios">
+                <div class="servicio">
+                    <strong>Vehículos</strong>
+                    <code>http://127.0.0.1:8001</code>
+                    <span class="estado-servicio" id="estado-vehiculos">Comprobando...</span>
+                </div>
+                <div class="servicio">
+                    <strong>Clientes</strong>
+                    <code>http://127.0.0.1:8002</code>
+                    <span class="estado-servicio" id="estado-clientes">Comprobando...</span>
+                </div>
+                <div class="servicio">
+                    <strong>Reservas</strong>
+                    <code>http://127.0.0.1:8003</code>
+                    <span class="estado-servicio" id="estado-reservas">Comprobando...</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/inicio.js"></script>
+</body>
+</html>
