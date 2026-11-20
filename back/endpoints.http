@@ -1,0 +1,143 @@
+### Microservicio de vehiculos (8001)
+
+### estado del servicio
+GET http://127.0.0.1:8001/inicio
+
+### listar vehiculos
+GET http://127.0.0.1:8001/vehiculos
+
+### consultar un vehiculo
+GET http://127.0.0.1:8001/vehiculos/1
+
+### crear vehiculo
+POST http://127.0.0.1:8001/vehiculos
+Content-Type: application/json
+
+{
+    "marca": "Mazda",
+    "modelo": "CX-5",
+    "anio": 2022,
+    "categoria": "SUV",
+    "estado": "disponible"
+}
+
+### modificar vehiculo
+PUT http://127.0.0.1:8001/vehiculos/1
+Content-Type: application/json
+
+{
+    "marca": "Toyota",
+    "modelo": "Corolla",
+    "anio": 2024,
+    "categoria": "Sedan",
+    "estado": "disponible"
+}
+
+### cambiar solo el estado (lo usa el servicio de reservas)
+PUT http://127.0.0.1:8001/vehiculos/1/estado
+Content-Type: application/json
+
+{
+    "estado": "alquilado"
+}
+
+### eliminar vehiculo (falla con 409 si tiene reservas)
+DELETE http://127.0.0.1:8001/vehiculos/1
+
+
+### Microservicio de clientes (8002)
+
+### estado del servicio
+GET http://127.0.0.1:8002/inicio
+
+### listar clientes
+GET http://127.0.0.1:8002/clientes
+
+### consultar un cliente
+GET http://127.0.0.1:8002/clientes/1
+
+### crear cliente
+POST http://127.0.0.1:8002/clientes
+Content-Type: application/json
+
+{
+    "nombre": "Ana Rodriguez",
+    "telefono": "8888-1111",
+    "correo": "ana@correo.com",
+    "numero_licencia": "LIC-1001"
+}
+
+### modificar cliente
+PUT http://127.0.0.1:8002/clientes/1
+Content-Type: application/json
+
+{
+    "nombre": "Ana Rodriguez",
+    "telefono": "8888-2222",
+    "correo": "ana@correo.com",
+    "numero_licencia": "LIC-1001"
+}
+
+### eliminar cliente (falla con 409 si tiene reservas)
+DELETE http://127.0.0.1:8002/clientes/1
+
+
+### Microservicio de reservas (8003)
+
+### estado del servicio
+GET http://127.0.0.1:8003/inicio
+
+### listar reservas con cliente y vehiculo
+GET http://127.0.0.1:8003/reservas
+
+### consultar una reserva
+GET http://127.0.0.1:8003/reservas/1
+
+### crear reserva
+POST http://127.0.0.1:8003/reservas
+Content-Type: application/json
+
+{
+    "cliente_id": 1,
+    "vehiculo_id": 1,
+    "fecha_inicio": "2026-12-10",
+    "fecha_fin": "2026-12-12"
+}
+
+### modificar reserva
+PUT http://127.0.0.1:8003/reservas/1
+Content-Type: application/json
+
+{
+    "cliente_id": 1,
+    "vehiculo_id": 1,
+    "fecha_inicio": "2026-12-11",
+    "fecha_fin": "2026-12-13"
+}
+
+### registrar devolucion
+PUT http://127.0.0.1:8003/reservas/1/devolver
+
+### cancelar reserva
+PUT http://127.0.0.1:8003/reservas/1/cancelar
+
+### eliminar reserva
+DELETE http://127.0.0.1:8003/reservas/1
+
+### vehiculos disponibles ahora
+GET http://127.0.0.1:8003/reservas/disponibles
+
+### historial por vehiculo
+GET http://127.0.0.1:8003/reservas/historial/vehiculo/1
+
+### historial por cliente
+GET http://127.0.0.1:8003/reservas/historial/cliente/1
+
+### total de reservas de un vehiculo (lo usa el servicio de vehiculos)
+GET http://127.0.0.1:8003/reservas/vehiculo/1/total
+
+### total de reservas de un cliente (lo usa el servicio de clientes)
+GET http://127.0.0.1:8003/reservas/cliente/1/total
+
+### estadisticas del panel
+GET http://127.0.0.1:8003/reservas/estadisticas
