@@ -1,3 +1,2 @@
-**/vendor/
-vendor/
-vendor/**
+# El vendor se incluye en el repositorio para que funcione sin Composer.
+*.log
