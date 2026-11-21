@@ -1,165 +1,118 @@
 # Alquiler de Vehículos - Microservicios
 
-Aplicación web para registrar vehículos, clientes y reservas de alquiler. Está construida con tres microservicios independientes en PHP, cada uno con su propia base de datos MySQL, y un frontend en HTML, CSS y JavaScript vanilla.
+Aplicación web en PHP + MySQL para gestionar el alquiler de vehículos:
+vehículos, clientes, reservas, devoluciones, disponibilidad e historial.
 
-## Arquitectura
-
-| Servicio | Base de datos | Puerto | Responsabilidad |
-| --- | --- | --- | --- |
-| `vehiculos_ms` | `vehiculos_db` | 8001 | CRUD de vehículos y cambio de estado |
-| `clientes_ms` | `clientes_db` | 8002 | CRUD de clientes |
-| `reservas_ms` | `reservas_db` | 8003 | Reservas, devoluciones, disponibilidad e historiales |
-
-Cada servicio usa **PHP 8 + Slim 4 + Eloquent**, con la misma estructura de carpetas del proyecto guía:
-
-```
-back/
-  vehiculos_ms/
-    app/
-      Controllers/              logica de negocio
-      global/                   conexion, URLs y cliente HTTP
-      Middlewares/              CORS
-      Models/                   modelos Eloquent
-      Presentation/
-        Repositories/           entrada y salida HTTP
-        Routers/                rutas
-    database/schema.sql
-    public/index.php
-    composer.json
-  clientes_ms/
-  reservas_ms/
-  endpoints.http
-front/
-  alquiler_app/
-    index.html                  panel de control
-    vehiculos.html
-    clientes.html
-    reservas.html
-    reportes.html
-    css/index.css
-    js/api.js
-    js/inicio.js
-    js/vehiculos.js
-    js/clientes.js
-    js/reservas.js
-    js/reportes.js
-```
-
-## Comunicación entre servicios
-
-- El frontend consume las tres APIs por HTTP con `fetch`.
-- `reservas_ms` consulta a `vehiculos_ms` y `clientes_ms` para validar y enriquecer las reservas.
-- `vehiculos_ms` y `clientes_ms` consultan a `reservas_ms` antes de eliminar un registro con reservas asociadas.
-- No hay llaves foráneas entre bases de datos: cada servicio es dueño de sus datos.
+Proyecto construido siguiendo la estructura del proyecto
+`programacion_g1_s2_2026-micro`, con tres microservicios independientes y un
+frontend en HTML, CSS y JavaScript.
 
 ## Requisitos
 
-- XAMPP con PHP 8 y MySQL encendidos.
-- Composer (solo para instalar dependencias; el proyecto ya incluye `vendor/` en local).
+- XAMPP con Apache y MySQL/MariaDB iniciados
+- PHP 8.x (incluido en XAMPP)
+- Composer (solo si hay que reinstalar las dependencias en `vendor/`)
+
+## Servicios
+
+| Servicio | Base de datos | Puerto |
+| --- | --- | --- |
+| `vehiculos_ms` | `vehiculos_db` | 8001 |
+| `clientes_ms` | `clientes_db` | 8002 |
+| `reservas_ms` | `reservas_db` | 8003 |
 
 ## Instalación
 
-1. Importar las tres bases de datos. Desde la raíz del proyecto:
+1. Copiar el proyecto en `C:\xampp\htdocs\alquiler_vehiculos_micro` (ya está).
+2. Iniciar Apache y MySQL desde el panel de XAMPP.
+3. Importar las tres bases de datos desde la raíz del proyecto:
 
 ```bat
 instalar_bases.bat
 ```
 
-O manualmente:
-
-```bat
-C:\xampp\mysql\bin\mysql.exe -u root -e "source back/vehiculos_ms/database/schema.sql"
-C:\xampp\mysql\bin\mysql.exe -u root -e "source back/clientes_ms/database/schema.sql"
-C:\xampp\mysql\bin\mysql.exe -u root -e "source back/reservas_ms/database/schema.sql"
-```
-
-2. Instalar dependencias de cada servicio (solo si no existe `vendor/`):
-
-```bat
-cd back\vehiculos_ms
-php C:\xampp\php\composer.phar install
-
-cd ..\clientes_ms
-php C:\xampp\php\composer.phar install
-
-cd ..\reservas_ms
-php C:\xampp\php\composer.phar install
-```
-
-3. Iniciar los tres microservicios:
+4. Iniciar los tres microservicios:
 
 ```bat
 back\iniciar_servicios.bat
 ```
 
-O manualmente, en tres terminales:
+5. Abrir <http://localhost/alquiler_vehiculos_micro/front/alquiler_app/index.html>
+   en el navegador.
+
+Cada servicio se puede iniciar también por separado, desde su carpeta y con su
+puerto:
 
 ```bat
-cd C:\xampp\htdocs\alquiler_vehiculos_micro\back\vehiculos_ms
-C:\xampp\php\php.exe -S 127.0.0.1:8001 -t public
-
-cd C:\xampp\htdocs\alquiler_vehiculos_micro\back\clientes_ms
-C:\xampp\php\php.exe -S 127.0.0.1:8002 -t public
-
-cd C:\xampp\htdocs\alquiler_vehiculos_micro\back\reservas_ms
-C:\xampp\php\php.exe -S 127.0.0.1:8003 -t public
+cd back\vehiculos_ms
+php -S 127.0.0.1:8001 -t public
 ```
 
-4. Abrir la aplicación en el navegador:
-
-```
-http://localhost/alquiler_vehiculos_micro/front/alquiler_app/index.html
-```
-
-Apache debe estar encendido para servir el frontend.
-
-## Datos de ejemplo
-
-- 6 vehículos: Toyota Corolla, Hyundai Tucson, Kia Picanto, Nissan Frontier, Mazda CX-5 y Renault Logan.
-- 5 clientes: Ana Rodríguez, Carlos Méndez, María Fernández, Luis Gómez y Laura Torres.
-- 5 reservas: 3 activas y 2 completadas.
-
-El vehículo Nissan Frontier aparece alquilado porque tiene una reserva activa que cubre la fecha actual. El Kia Picanto está en mantenimiento.
+Si falta la carpeta `vendor/`, se instala con `composer install` dentro de cada
+servicio. Las credenciales de conexión están en
+`back/<servicio>/app/global/database_config.php` (`127.0.0.1`, usuario `root`,
+sin contraseña), que son las de XAMPP por defecto.
 
 ## Funcionalidades
 
-- Panel con totales de vehículos, clientes, reservas, activas, disponibles y mantenimiento.
-- CRUD completo de vehículos y clientes.
-- Creación, edición, devolución, cancelación y eliminación de reservas.
-- Validación de solapamiento de reservas por vehículo.
-- Cambio automático del estado del vehículo entre `disponible` y `alquilado`.
-- Protección contra eliminar vehículos o clientes con reservas.
-- Consulta de vehículos disponibles en la fecha actual.
-- Historial de reservas por vehículo y por cliente.
+| Requisito del documento | Dónde está |
+| --- | --- |
+| Registrar vehículos (marca, modelo, año, categoría, estado) | `vehiculos_ms` y `vehiculos.html` |
+| Registrar clientes (nombre, contacto, licencia) | `clientes_ms` y `clientes.html` |
+| Reservas por periodo con fechas de inicio y fin | `reservas_ms` y `reservas.html` |
+| Devolución de vehículos actualizando su estado | `PUT /reservas/{id}/devolver` |
+| Historial de alquileres por vehículo y por cliente | `reservas_ms` y `reportes.html` |
+| Consulta de vehículos disponibles | `GET /reservas/disponibles` |
+| Cambio automático de estado del vehículo | `ReservasController::sincronizar_estado_vehiculo()` |
+| Evitar conflictos de reservas (solapamiento) | `ReservasController::hay_solapamiento()` |
 
-## Endpoints
+Reglas de negocio implementadas:
 
-Los ejemplos de todas las peticiones están en `back/endpoints.http`.
+- Un vehículo en `mantenimiento` no se puede reservar.
+- No se permiten dos reservas `activas` solapadas para el mismo vehículo.
+- Al crear una reserva vigente para hoy, el vehículo pasa a `alquilado`.
+- Al devolver o cancelar, el vehículo vuelve a `disponible` (salvo que esté en
+  mantenimiento o tenga otra reserva vigente).
+- No se pueden eliminar vehículos ni clientes con reservas registradas.
 
-| Método | Ruta | Descripción |
-| --- | --- | --- |
-| GET | `/vehiculos` | Lista de vehículos |
-| POST | `/vehiculos` | Crear vehículo |
-| PUT | `/vehiculos/{id}` | Modificar vehículo |
-| PUT | `/vehiculos/{id}/estado` | Cambiar estado |
-| DELETE | `/vehiculos/{id}` | Eliminar vehículo |
-| GET | `/clientes` | Lista de clientes |
-| POST | `/clientes` | Crear cliente |
-| PUT | `/clientes/{id}` | Modificar cliente |
-| DELETE | `/clientes/{id}` | Eliminar cliente |
-| GET | `/reservas` | Reservas con cliente y vehículo |
-| POST | `/reservas` | Crear reserva |
-| PUT | `/reservas/{id}` | Modificar reserva |
-| PUT | `/reservas/{id}/devolver` | Registrar devolución |
-| PUT | `/reservas/{id}/cancelar` | Cancelar reserva |
-| DELETE | `/reservas/{id}` | Eliminar reserva |
-| GET | `/reservas/disponibles` | Vehículos disponibles hoy |
-| GET | `/reservas/historial/vehiculo/{id}` | Historial por vehículo |
-| GET | `/reservas/historial/cliente/{id}` | Historial por cliente |
-| GET | `/reservas/estadisticas` | Totales del panel |
+## Arquitectura
 
-## Notas
+```
+back/
+  vehiculos_ms/            Puerto 8001
+  clientes_ms/             Puerto 8002
+  reservas_ms/             Puerto 8003
+    app/
+      Controllers/         Reglas de negocio
+      global/              Conexión, URLs y cliente HTTP
+      Middlewares/         CORS
+      Models/              Modelos Eloquent
+      Presentation/
+        Repositories/      Entrada y salida HTTP
+        Routers/           Rutas
+    database/schema.sql    Script de la base de datos
+    public/index.php       Arranque de Slim
+  endpoints.http           Ejemplos de las peticiones
+front/
+  alquiler_app/
+    index.html             Panel de control
+    vehiculos.html  clientes.html  reservas.html  reportes.html
+    css/index.css
+    js/                    Un archivo por página y api.js compartido
+```
 
-- Los puertos 8001, 8002 y 8003 deben estar libres.
-- Si un servicio no está encendido, el frontend muestra un mensaje de conexión y el panel marca el servicio como "Sin conexión".
-- Para reiniciar los datos, vuelva a ejecutar `instalar_bases.bat`; los scripts eliminan y recrean las tablas.
+Cada servicio tiene su propia base de datos y no hay llaves foráneas entre
+ellas. El frontend consume las tres APIs por HTTP, y `reservas_ms` consulta a
+`vehiculos_ms` y `clientes_ms` para validar y completar las reservas.
+
+## Diferencias respecto del proyecto de referencia
+
+- Se usan tres microservicios (vehículos, clientes y reservas) en lugar de uno,
+  cada uno con su base de datos.
+- Los servicios se comunican por HTTP con cURL: `reservas_ms` valida clientes y
+  vehículos, y `vehiculos_ms` y `clientes_ms` consultan las reservas antes de
+  eliminar un registro.
+- No hay login: el frontend entra directo al panel de gestión.
+
+Las dependencias se instalan con Composer (Slim 4 y Eloquent), igual que en el
+proyecto de referencia.
